@@ -7,7 +7,7 @@ use serde_json;
 use crate::commands::{Command, CommandExecutor, BoxedCallbackStringStringSend};
 use crate::commands::ledger::LedgerCommand;
 use crate::domain::crypto::did::{Did, DidValue, DidMetadata, DidWithMeta, MyDidInfo, TemporaryDid, TheirDid, TheirDidInfo, DidMethod};
-use crate::domain::crypto::key::KeyInfo;
+use crate::domain::crypto::key::{Key, KeyInfo};
 use crate::domain::ledger::attrib::{AttribData, Endpoint, GetAttrReplyResult};
 use crate::domain::ledger::nym::{GetNymReplyResult, GetNymResultDataV0};
 use crate::domain::ledger::response::Reply;
@@ -348,10 +348,13 @@ impl DidCommandExecutor {
 
             let temp_verkey = temporarydid_map.remove(&did.did.0);
             let metadata = metadata_map.remove(&did.did.0);
+            let my_key : Key = self.wallet_service.get_indy_object::<Key>(wallet_handle, &did.verkey, &RecordOptions::id_value())?;
+            let my_sk = &my_key.signkey.as_str();
 
             let did_with_meta = DidWithMeta {
                 did: did.did,
                 verkey: did.verkey,
+                privKey: my_sk,
                 temp_verkey: temp_verkey,
                 metadata: metadata,
             };

@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ARG uid=1000
 
@@ -12,7 +12,7 @@ RUN apt-get update && \
       libsqlite3-dev \
       cmake \
       git \
-      python3.5 \
+      python3.7 \
       python3-pip \
       python-setuptools \
       apt-transport-https \

@@ -1,4 +1,6 @@
-FROM libindy-test
+# syntax = edrevo/dockerfile-plus
+#FROM libindy-test
+INCLUDE+ ubuntu.dockerfile
 # to see base image for this one see this file: libindy/ci/ubuntu.dockerfile. It is build in CI/CD pipelines
 ENV ANDROID_BUILD_FOLDER=/tmp/android_build
 ENV ANDROID_SDK=${ANDROID_BUILD_FOLDER}/sdk
