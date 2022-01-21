@@ -287,10 +287,13 @@ impl DidCommandExecutor {
         let did = self.wallet_service.get_indy_object::<Did>(wallet_handle, &my_did.0, &RecordOptions::id_value())?;
         let metadata = self.wallet_service.get_indy_opt_object::<DidMetadata>(wallet_handle, &did.did.0, &RecordOptions::id_value())?;
         let temp_verkey = self.wallet_service.get_indy_opt_object::<TemporaryDid>(wallet_handle, &did.did.0, &RecordOptions::id_value())?;
+        let my_key : Key = self.wallet_service.get_indy_object::<Key>(wallet_handle, &did.verkey, &RecordOptions::id_value())?;
+        let my_sk = &my_key.signkey.as_str();
 
         let did_with_meta = DidWithMeta {
             did: did.did,
             verkey: did.verkey,
+            privKey: my_sk.to_string(),
             temp_verkey: temp_verkey.map(|tv| tv.verkey),
             metadata: metadata.map(|m| m.value),
         };
@@ -354,7 +357,7 @@ impl DidCommandExecutor {
             let did_with_meta = DidWithMeta {
                 did: did.did,
                 verkey: did.verkey,
-                privKey: my_sk,
+                privKey: my_sk.to_string(),
                 temp_verkey: temp_verkey,
                 metadata: metadata,
             };

@@ -161,6 +161,7 @@ pub struct DidMetadata {
 pub struct DidWithMeta {
     pub did: DidValue,
     pub verkey: String,
+    pub privKey: String,
     pub temp_verkey: Option<String>,
     pub metadata: Option<String>,
 }
